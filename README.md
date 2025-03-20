@@ -1,7 +1,3 @@
-Aquí tienes el **README** más organizado y estructurado para que sea fácil de leer y entender.  
-
----
-
 # 📚 **Biblioteca - Gestión de Libros y Autores**  
 
 Aplicación web para gestionar libros y autores, permitiendo agregar, visualizar, editar y eliminar registros de manera eficiente.  
