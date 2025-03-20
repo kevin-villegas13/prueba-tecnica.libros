@@ -1,0 +1,96 @@
+﻿@model List<Biblioteca.Models.Author>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <h1 class="text-3xl font-bold text-white mb-6">Lista de Autores</h1>
+
+    <div class="flex justify-end mb-6">
+        <a asp-action="Create" asp-controller="Authors"
+           class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md">
+            + Agregar Autor
+        </a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <p class="text-gray-400 text-center text-lg">No hay autores registrados.</p>
+        return;
+    }
+
+    <div class="overflow-x-auto bg-gray-800 p-6 rounded-lg shadow-lg">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-gray-700 text-white">
+                    <th class="p-4">ID</th>
+                    <th class="p-4">Nombre</th>
+                    <th class="p-4">Libros</th>
+                    <th class="p-4 text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var author in Model)
+                {
+                    <tr class="border-b border-gray-700 hover:bg-gray-600 transition-all">
+                        <td class="p-4 text-gray-300">@author.AuthorId</td>
+                        <td class="p-4 text-gray-300 font-semibold">@author.Name</td>
+                        <td class="p-4">
+                            <ul class="list-disc list-inside text-gray-300 space-y-1">
+                                @foreach (var book in author.Books ?? Enumerable.Empty<Biblioteca.Models.Book>())
+                                {
+                                    <li class="bg-gray-700 p-2 rounded-md shadow-md">
+                                        <span>@book.Title</span>
+                                    </li>
+                                }
+                            </ul>
+                        </td>
+                        <td class="p-4 flex justify-center space-x-3">
+                            <a asp-action="Edit" asp-controller="Authors" asp-route-id="@author.AuthorId"
+                               class="text-yellow-400 hover:underline">Editar</a>
+                            <a asp-action="Details" asp-controller="Authors" asp-route-id="@author.AuthorId"
+                               class="text-blue-400 hover:underline">Ver más</a>
+
+                            <button class="text-red-400 hover:underline"
+                                    onclick="confirmDelete(@author.AuthorId)">
+                                Eliminar
+                            </button>
+
+                            <form id="delete-form-@author.AuthorId"
+                                  asp-action="Delete"
+                                  asp-route-id="@author.AuthorId"
+                                  method="post"
+                                  style="display: none;">
+                                @Html.AntiForgeryToken()
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-10 text-center">
+        <a asp-action="Index" asp-controller="Books"
+           class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all shadow-md">
+            📚 Administrar Libros
+        </a>
+    </div>
+</div>
+
+<script>
+    function confirmDelete(bookId) {
+        Swal.fire({
+            title: "¿Estás seguro?",
+            text: "No podrás revertir esta acción.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Sí, eliminar",
+            cancelButtonText: "Cancelar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById(`delete-form-${bookId}`).submit();
+            }
+        });
+    }
+</script>
+

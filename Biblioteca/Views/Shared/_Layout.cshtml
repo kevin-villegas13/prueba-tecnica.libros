@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Biblioteca</title>
+    <link rel="stylesheet" href="~/css/output.css" asp-append-version="true" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white">
+    <header>
+        <nav class="bg-gray-900 shadow-md">
+            <div class="max-w-screen-xl mx-auto flex justify-between items-center p-4">
+                <!-- Logo -->
+                <a href="@Url.Action("Index", "Home")" class="flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-blue-500">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l7.5-7.5M21 12H3m18 0l-7.5 7.5" />
+                    </svg>
+                    <span class="text-xl font-semibold text-white">Biblioteca</span>
+                </a>
+
+                <!-- Menú para escritorio -->
+                <div class="hidden md:flex space-x-6">
+                    <a href="@Url.Action("Index", "Home")" class="text-white hover:text-blue-400 transition duration-300">Inicio</a>
+                    <a href="@Url.Action("Index", "Books")" class="text-white hover:text-blue-400 transition duration-300">Libros</a>
+                    <a href="@Url.Action("Index", "Authors")" class="text-white hover:text-blue-400 transition duration-300">Autores</a>
+                </div>
+
+                <!-- Botón del menú móvil -->
+                <button id="menu-button" class="md:hidden p-2 text-gray-400 hover:bg-gray-700 rounded-lg transition duration-300">
+                    <span class="sr-only">Abrir menú</span>
+                    <svg id="menu-icon" class="w-6 h-6 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Menú móvil -->
+            <div id="mobile-menu" class="hidden flex flex-col md:hidden bg-gray-800 p-4 space-y-2 transform transition-transform duration-300 -translate-y-full">
+                <a href="@Url.Action("Index", "Home")" class="block text-white hover:text-blue-400 transition duration-300">Inicio</a>
+                <a href="@Url.Action("Index", "Books")" class="block text-white hover:text-blue-400 transition duration-300">Libros</a>
+                <a href="@Url.Action("Index", "Authors")" class="block text-white hover:text-blue-400 transition duration-300">Autores</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        @RenderBody()
+    </div>
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const menuButton = document.getElementById("menu-button");
+        const menuIcon = document.getElementById("menu-icon");
+        const mobileMenu = document.getElementById("mobile-menu");
+
+        menuButton.addEventListener("click", function () {
+            mobileMenu.classList.toggle("hidden");
+            mobileMenu.classList.toggle("translate-y-0");
+            menuIcon.classList.toggle("rotate-180");
+        });
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</html>
